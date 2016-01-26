@@ -1,11 +1,18 @@
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from pkg_resources import get_distribution, DistributionNotFound
 
 
 def check():
     package_name = settings.HEARTBEAT.get('package_name')
+    if not package_name:
+        raise ImproperlyConfigured(
+            'Missing package_name key from heartbeat configuration')
+
     try:
-        version = get_distribution(package_name)
+        distro = get_distribution(package_name)
+        value = '{name}=={version}'.format(distro.project_name, distro.version)
     except DistributionNotFound:
-        version = 'Unknown version'
-    return {'project': '{}'.format(version)}
+        value = 'no distribution found for {}'.format(package_name)
+
+    return {'project_version': value}

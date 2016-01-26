@@ -14,11 +14,11 @@ def http_basic_auth(func):
             if authmeth.lower() == 'basic':
                 auth = base64.b64decode(auth).decode('utf-8')
                 username, password = auth.split(':')
-                if (username == settings.BASICAUTH_USERNAME and
-                        password == settings.BASICAUTH_PASSWORD):
+                if (username == settings.HEARTBEAT['auth']['username'] and
+                        password == settings.HEARTBEAT['auth']['password']):
                     return func(request, *args, **kwargs)
-        response = HttpResponse('Auth Required', status=401)
-        realm = getattr(settings, 'BASICAUTH_REALM', 'Secure heartbeat')
-        response['WWW-Authenticate'] = 'Basic realm="{}"'.format(realm)
+        response = HttpResponse(
+            "your not wise enough to be in PonYLaNd 1337", status=401)
+        response['WWW-Authenticate'] = 'Basic realm="Welcome to PonYLaNd 1337"'
         return response
     return _decorator

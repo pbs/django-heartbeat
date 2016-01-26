@@ -6,7 +6,7 @@ from .auth import http_basic_auth
 
 
 def index(request):
-    return HttpResponse(content='Pong')
+    return HttpResponse(content='all good in the hood')
 
 
 @http_basic_auth

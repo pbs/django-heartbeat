@@ -2,4 +2,4 @@ from django.conf import settings
 
 
 def check():
-    return{'debug_mode': settings.DEBUG}
+    return {'debug_mode': settings.DEBUG}

@@ -1,5 +1,4 @@
 from django.conf import settings
-import_error = None
 try:
     import redis
     from redis.connection import ConnectionError
@@ -8,21 +7,19 @@ except ImportError:
 
 
 def check():
-    cacheops_redis = settings.CACHEOPS_REDIS
-    host = cacheops_redis.get('host', '')
-    port = cacheops_redis.get('port', 0)
-    kwargs = {
-        'host': host,
-        'port': port,
-    }
+    host = settings.CACHEOPS_REDIS.get('host', '')
+    port = settings.CACHEOPS_REDIS.get('port', 0)
 
-    data = {'redis': {'version': redis.VERSION}}
     try:
-        redis_con = redis.StrictRedis(**kwargs)
-        data['redis']['ping'] = redis_con.ping()
-        data['redis']['version'] = redis_con.info().get('redis_version')
+        redis_con = redis.StrictRedis(host=host, port=port)
     except ConnectionError as e:
-        data['redis'] = str(e)
+        return {'redis': {'error': str(e)}}
     except NameError:
-        data['redis'] = 'Import error'
-    return data
+        return {'redis': {'error': 'cannot import redis library'}}
+
+    return {
+        'redis': {
+            'ping': redis_con.ping(),
+            'version': redis_con.info().get('redis_version')
+        }
+    }
