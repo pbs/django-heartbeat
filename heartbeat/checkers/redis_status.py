@@ -12,14 +12,15 @@ def check():
 
     try:
         redis_con = redis.StrictRedis(host=host, port=port)
-    except ConnectionError as e:
-        return {'redis': {'error': str(e)}}
+        ping = redis_con.ping()
     except NameError:
         return {'redis': {'error': 'cannot import redis library'}}
+    except ConnectionError as e:
+        return {'redis': {'error': str(e)}}
 
     return {
         'redis': {
-            'ping': redis_con.ping(),
+            'ping': ping,
             'version': redis_con.info().get('redis_version')
         }
     }

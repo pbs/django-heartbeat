@@ -71,7 +71,8 @@ class TestCheckers(object):
     @mock.patch('heartbeat.checkers.redis_status.redis')
     def test_redis_connection_error(self, mock_redis):
         setattr(settings, 'CACHEOPS_REDIS', {'host': 'foo', 'port': 1337})
-        mock_redis.StrictRedis.side_effect = ConnectionError('foo')
+        mock_ping = mock_redis.StrictRedis.return_value.ping
+        mock_ping.side_effect = ConnectionError('foo')
         status = redis_status.check()
         assert status['redis']['error'] == 'foo', status
 
