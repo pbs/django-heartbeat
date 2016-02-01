@@ -1,17 +1,21 @@
-from unittest.mock import Mock
-
 import pytest
-from unittest import mock
+from mock import mock, Mock
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from pkg_resources import DistributionNotFound
-import sys; sys.modules['redis'] = mock.Mock()
-from .checkers import (build_version, debug_mode, distribution_list,
-                       redis_status)
-try:
-    settings.configure()
-except RuntimeError:
+
+
+class ConnectionError(Exception):
     pass
+
+import sys
+sys.modules['redis'] = mock.Mock()
+sys.modules['redis.connection'] = mock.Mock()
+sys.modules['redis.connection'].ConnectionError = ConnectionError
+
+from .checkers import (
+    build_version, debug_mode, distribution_list, redis_status)
+settings.configure()
 
 
 class TestCheckers(object):
@@ -47,9 +51,8 @@ class TestCheckers(object):
         assert debug['debug_mode'] == mode
 
     @mock.patch(
-            'heartbeat.checkers.distribution_list.get_installed_distributions')
+        'heartbeat.checkers.distribution_list.get_installed_distributions')
     def test_get_distribution_list(self, dist_list):
-
         dist_list.return_value = [
             Mock(project_name=i, version='1.0.0') for i in range(3)]
         distro = distribution_list.check()
@@ -65,9 +68,15 @@ class TestCheckers(object):
         assert status['redis']['ping'] == 'PONG'
         assert status['redis']['version'] == '1.0.0'
 
-    @mock.patch('heartbeat.checkers.redis_status.redis.StrictRedis')
+    @mock.patch('heartbeat.checkers.redis_status.redis')
     def test_redis_connection_error(self, mock_redis):
         setattr(settings, 'CACHEOPS_REDIS', {'host': 'foo', 'port': 1337})
-        mock_redis.side_effect = ConnectionError('foo exception message')
+        mock_redis.StrictRedis.side_effect = ConnectionError('foo')
         status = redis_status.check()
-        assert status['redis']['error'] == 'foo exception message', status
+        assert status['redis']['error'] == 'foo', status
+
+    @mock.patch('heartbeat.checkers.redis_status.redis')
+    def test_redis_import_error(self, mock_redis):
+        mock_redis.StrictRedis.side_effect = NameError
+        status = redis_status.check()
+        assert status['redis']['error'] == 'cannot import redis library'
