@@ -1,9 +1,8 @@
 from importlib import import_module
-
 from django.http import HttpResponse, JsonResponse
 
-from .auth import http_basic_auth
 from .settings import HEARTBEAT
+from .auth import http_basic_auth
 
 
 def index(request):
