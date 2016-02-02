@@ -1,6 +1,6 @@
 import sys
-import pytest
 
+import pytest
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from pkg_resources import DistributionNotFound
@@ -19,7 +19,7 @@ sys.modules['redis'] = mock.Mock()
 sys.modules['redis.connection'] = mock.Mock()
 sys.modules['redis.connection'].ConnectionError = ConnectionError
 
-from .checkers import (
+from heartbeat.checkers import (
     build_version, debug_mode, distribution_list, redis_status)
 settings.configure()
 

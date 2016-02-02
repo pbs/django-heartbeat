@@ -10,15 +10,21 @@ from setuptools import setup
 
 setup(
     name='django-heartbeat',
-    version='2016.1.25',
-    description=('DevOps ping'),
-    long_description='',
-    author='',
-    author_email='',
-    url='tba',
-    packages=find_packages(),
-    # package_dir={'': 'src'},
+    version='1.0.0',
+    description='DevOps ping',
+    long_description=('A simple reusable app that checks and lists '
+                      'various information about your project and its '
+                      'dependencies'),
+    keywords="django heartbeat health check",
+    author='PBS Core Services Test Engineers',
+    author_email='andrei.pradan@3pillarglobal.com',
+    url='https://github.com/pbs/django-heartbeat/',
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     include_package_data=True,
     zip_safe=False,
+    install_requires=[
+        'Django>=1.7,<1.9',
+    ]
 )
