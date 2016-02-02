@@ -1,14 +1,20 @@
+import sys
 import pytest
-from mock import mock, Mock
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from pkg_resources import DistributionNotFound
+
+try:
+    from unittest import mock
+    from unittest.mock import Mock
+except ImportError:
+    from mock import mock, Mock
 
 
 class ConnectionError(Exception):
     pass
 
-import sys
 sys.modules['redis'] = mock.Mock()
 sys.modules['redis.connection'] = mock.Mock()
 sys.modules['redis.connection'].ConnectionError = ConnectionError
@@ -27,7 +33,8 @@ class TestCheckers(object):
         setattr(settings, 'HEARTBEAT', pkg)
         with pytest.raises(ImproperlyConfigured) as e:
             build_version.check()
-        assert 'Missing package_name key from heartbeat configuration' in str(e)
+        msg = 'Missing package_name key from heartbeat configuration'
+        assert msg in str(e)
 
     @mock.patch('heartbeat.checkers.build_version.get_distribution')
     def test_build_version_invalid_package_name(self, dist):
