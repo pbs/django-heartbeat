@@ -1,4 +1,4 @@
-# django-heartbeat
+# django-heartbeat  [![Build Status](https://travis-ci.org/pbs/django-heartbeat.svg?branch=master)](https://travis-ci.org/pbs/django-heartbeat)
 
 Django-heartbeat is a simple reusable app that checks and lists various information
 about your project and its dependencies
