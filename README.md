@@ -97,7 +97,7 @@ If no checkers are defined, heartbeat will default to the following:
 
     return {'ping': 'pong'}
   ```
-Note: The function name of your checker MUST be 'check' and has to be a JSON-serializable object
+Note: The function name of your checker MUST be 'check' and has to return a JSON-serializable object
 
 - add it to the settings.HEARTBEAT config
 ```Python
