@@ -1,7 +1,10 @@
 language: python
-python:
-  - "3.5"
-install:
-  - pip install tox 
-script:
-  - tox
+python: 
+- "3.5"
+install: 
+- pip install tox
+script: 
+- tox
+notifications: 
+  slack: 
+    secure: IBiDuqVrm1i5g0cSSHft/v9qMWeQlZlx45M+YvEWi9xGoMom6bZ8JUvEPkuihgAWhYuP+2xXCP/9CnliDjxKWGL1kHvzn/KcNovKcsNFVH/u8mNLK8tKpboXh/UQHrSwQ4t3jFF1zANpRxwECgvP6DYQOST31YDry8PI63I3GwPEECYw3HvkiMMIvI8ZL0cfcCqmGZ1lszmjO/qcIUvK/1Fw2miGESj9YqaribvQRGjZKT3PWMGZdnlaQnJIVie3ITN1I7WwC8wJnQGNZ6Cf2Aq1hFZhdSiXEVDEmavHZyYAXm9kvvB3NFeQ9SvFRYVlwbe5GkKZYdJYGd1cTpNVk68D8RNnUa5KPbfx55930TboELK4P8WTTibpcU7+EyOa94ZDI8B9FYiUZ3KQpEeB4dfFYSBTo+1/zAHRQq8uPjkftB5+BG8iVoLUuRUZXVMeYjbgjhG6geXqU0B4j3BEJQx+ArQwW/YO5lBBnPSf69vjDKSHTQBMs/+6u23KFGYugSwaXi2qctwqowf4x5HlHpwX9kewL0V6jCg9pUb8ft7xK+WsvOWcwH+W1clbxXS6YuwcklgveoCQcTHnxhwOCCKLWjNGhFGcFPo6Cgl6KFfNZzVSE+3qtoo96Q1PUY/yD0N5cZBNO0r6Zdsmg6RGIwGFEP4iL8xmoIhsbur3UVo=
