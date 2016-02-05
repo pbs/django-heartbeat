@@ -48,21 +48,21 @@ a dictionary containing at least the basic auth credentials.
 
 e.g.:
 
-```Python
-HEARTBEAT = {
-    'package_name': 'foo_project',
-    'checkers': [
-        'heartbeat.checkers.build_version',
-        'heartbeat.checkers.distribution_list',
-        'heartbeat.checkers.debug_mode',
-        'heartbeat.checkers.redis_status',
-    ],
-    'auth': {
-        'username': 'foo',
-        'password': 'bar',
-    },
-}
-```
+  ```Python
+  HEARTBEAT = {
+      'package_name': 'foo_project',
+      'checkers': [
+          'heartbeat.checkers.build_version',
+          'heartbeat.checkers.distribution_list',
+          'heartbeat.checkers.debug_mode',
+          'heartbeat.checkers.redis_status',
+      ],
+      'auth': {
+          'username': 'foo',
+          'password': 'bar',
+      },
+  }
+  ```
 
 If no checkers are defined, heartbeat will default to the following:
 - `heartbeat.checkers.distribution_list`
@@ -88,8 +88,9 @@ If no checkers are defined, heartbeat will default to the following:
 # Implementing your own checker
 - my_checker.py:
   ```Python
-  def check():
+  def check(request):
     """
+    :param request: HttpRequest object
     :return: dict
     """
 
@@ -100,17 +101,17 @@ If no checkers are defined, heartbeat will default to the following:
 Note: The function name of your checker MUST be 'check' and has to return a JSON-serializable object
 
 - add it to the settings.HEARTBEAT config
-```Python
-HEARTBEAT = {
-    'checkers': [
-        'heartbeat.checkers.distribution_list',
-        'my_project.my_checker'
-        ...
+  ```Python
+  HEARTBEAT = {
+      'checkers': [
+          'heartbeat.checkers.distribution_list',
+          'my_project.my_checker'
+          ...
 
-    ],
-    ...
-}
-```
+      ],
+      ...
+  }
+  ```
 
 Simple, huh?
 
