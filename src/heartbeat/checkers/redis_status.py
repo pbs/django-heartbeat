@@ -6,7 +6,7 @@ except ImportError:
     pass
 
 
-def check():
+def check(request):
     host = settings.CACHEOPS_REDIS.get('host', '')
     port = settings.CACHEOPS_REDIS.get('port', 0)
     db = settings.CACHEOPS_REDIS.get('db', 0)

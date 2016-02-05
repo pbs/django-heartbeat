@@ -1,5 +1,5 @@
 from django.conf import settings
 
 
-def check():
+def check(request):
     return {'debug_mode': settings.DEBUG}

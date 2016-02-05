@@ -14,5 +14,5 @@ def details(request):
     data = {}
     for checker in HEARTBEAT['checkers']:
         checker_module = import_module(checker)
-        data.update(checker_module.check())
+        data.update(checker_module.check(request))
     return JsonResponse(data)

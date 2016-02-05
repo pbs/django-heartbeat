@@ -3,7 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from pkg_resources import get_distribution, DistributionNotFound
 
 
-def check():
+def check(request):
     package_name = settings.HEARTBEAT.get('package_name')
     if not package_name:
         raise ImproperlyConfigured(
