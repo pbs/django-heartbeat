@@ -10,7 +10,7 @@ from setuptools import setup
 
 setup(
     name='django-heartbeat',
-    version='1.0.0',
+    version='1.0.1',
     description='DevOps ping',
     long_description=('A simple reusable app that checks and lists '
                       'various information about your project and its '
