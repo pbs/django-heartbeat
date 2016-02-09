@@ -11,11 +11,11 @@ from setuptools import setup
 setup(
     name='django-heartbeat',
     version='1.0.1',
-    description='DevOps ping',
+    description="Your project's heartbeat/healthcheck and dependency status",
     long_description=('A simple reusable app that checks and lists '
                       'various information about your project and its '
                       'dependencies'),
-    keywords="django heartbeat health check",
+    keywords="django heartbeat health check dependency services status",
     author='PBS Core Services Test Engineers',
     author_email='andrei.pradan@3pillarglobal.com',
     url='https://github.com/pbs/django-heartbeat/',

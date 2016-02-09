@@ -2,14 +2,14 @@ from importlib import import_module
 from django.http import HttpResponse, JsonResponse
 
 from .settings import HEARTBEAT
-from .auth import http_basic_auth
+from .auth import auth
 
 
 def index(request):
     return HttpResponse(content='all good in the hood')
 
 
-@http_basic_auth
+@auth
 def details(request):
     data = {}
     for checker in HEARTBEAT['checkers']:
