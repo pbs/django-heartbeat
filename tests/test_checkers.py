@@ -24,6 +24,7 @@ from heartbeat.checkers import (
 
 if not settings.configured:
     settings.configure()
+from heartbeat import settings as heartbeat_settings
 
 
 class TestCheckers(object):
@@ -90,3 +91,10 @@ class TestCheckers(object):
         mock_redis.StrictRedis.side_effect = NameError
         status = redis_status.check(request=None)
         assert status['redis']['error'] == 'cannot import redis library'
+
+    def test_prepare_redis(self):
+        delattr(settings, 'CACHEOPS_REDIS')
+        HEARTBEAT = {'checkers': ['heartbeat.checkers.redis_status']}
+        with pytest.raises(ImproperlyConfigured) as e:
+            heartbeat_settings.prepare_redis(HEARTBEAT)
+        assert 'Missing CACHEOPS_REDIS in project settings' in str(e)

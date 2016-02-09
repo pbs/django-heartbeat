@@ -28,8 +28,8 @@ def auth(func):
                     return func(request, *args, **kwargs)
 
         response = HttpResponse(
-            "your not wise enough to be in PonYLaNd 1337", status=401)
-        response['WWW-Authenticate'] = 'Basic realm="Welcome to PonYLaNd 1337"'
+            "Authentication failed", status=401)
+        response['WWW-Authenticate'] = 'Basic realm="Welcome to 1337"'
         return response
     return _decorator
 
