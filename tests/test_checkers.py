@@ -21,7 +21,9 @@ sys.modules['redis.connection'].ConnectionError = ConnectionError
 
 from heartbeat.checkers import (
     build_version, debug_mode, distribution_list, redis_status)
-settings.configure()
+
+if not settings.configured:
+    settings.configure()
 
 
 class TestCheckers(object):

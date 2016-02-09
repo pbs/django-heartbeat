@@ -3,7 +3,9 @@ import base64
 import pytest
 
 from django.conf import settings
-settings.configure()
+
+if not settings.configured:
+    settings.configure()
 
 from django.test import RequestFactory
 from django.core.urlresolvers import reverse
