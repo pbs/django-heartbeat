@@ -1,9 +1,7 @@
 import json
-import base64
 import pytest
 
 from django.conf import settings
-
 if not settings.configured:
     settings.configure()
 
@@ -42,19 +40,16 @@ class TestDetailsView:
         })
         self.heartbeat = HEARTBEAT
 
-        def set_basic_auth():
-            credentials = base64.b64encode('{}:{}'.format('foo', 'bar'))
-            basic_auth = {'HTTP_AUTHORIZATION': 'Basic {}'.format(credentials)}
-            return basic_auth
+        basic_auth = {'HTTP_AUTHORIZATION': 'Basic Zm9vOmJhcg=='}
 
-        self.factory = RequestFactory(**set_basic_auth())
+        self.factory = RequestFactory(**basic_auth)
 
     def test_200OK(self):
         request = self.factory.get(reverse('1337'))
         response = details(request)
         assert response.status_code == 200
         assert response['content-type'] == 'application/json'
-        json_response = json.loads(response.content)
+        json_response = json.loads(response.content.decode('utf-8'))
         assert json_response['ping'] == 'pong'
 
     def test_with_invalid_basic_auth_credentials(self):
