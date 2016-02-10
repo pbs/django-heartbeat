@@ -8,6 +8,7 @@ def default_checkers():
         heartbeat['checkers'] = [
             'heartbeat.checkers.distribution_list',
             'heartbeat.checkers.debug_mode',
+            'heartbeat.checkers.python_version',
         ]
     prepare_redis(heartbeat)
     return heartbeat
