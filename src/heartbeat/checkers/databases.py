@@ -9,26 +9,40 @@ def check(request):
 
 
 def get_connection_info(connection):
-    try:
-        cursor = connection.cursor()
-    except OperationalError:
-        cursor = None
+    engine = connection.settings_dict.get('ENGINE')
+    name = connection.settings_dict.get('NAME')
+    host = connection.settings_dict.get('HOST')
+    port = connection.settings_dict.get('PORT')
 
-    return {
+    connection_info = {
         connection.alias: {
-            'ping': True if cursor else False,
-            'postgres_version': execute_sql(cursor),
-            'name': connection.settings_dict['NAME'],
-            'engine': connection.settings_dict['ENGINE'],
+            'version': get_database_version(connection, engine),
+            'name': name,
+            'engine': engine,
+            'host': host,
+            'port': port,
         }
     }
+    return connection_info
 
 
-def execute_sql(cursor):
-    if not cursor:
-        return {'error': 'Could not determine version'}
-    cursor.execute("SELECT version();")
+def get_database_version(connection, engine):
+    if engine in ['django.db.backends.postgresql_psycopg2',
+                  'django.db.backends.mysql']:
+        query = 'SELECT version();'
+    elif engine == 'django.db.backends.sqlite3':
+        query = 'select sqlite_version();'
+    elif engine == 'django.db.backends.oracle':
+        query = 'select * from v$version;'
+    return execute_sql(connection, query)
+
+
+def execute_sql(connection, stmt):
+    try:
+        cursor = connection.cursor()
+    except OperationalError as e:
+        return {'error': str(e)}
+
+    cursor.execute(stmt)
     result = cursor.fetchone()
-    if not result:
-        return {'error': 'SQL version query din not returned any rows'}
-    return result
+    return result[0]
