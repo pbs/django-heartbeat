@@ -13,10 +13,11 @@ def get_connection_info(connection):
     name = connection.settings_dict.get('NAME')
     host = connection.settings_dict.get('HOST')
     port = connection.settings_dict.get('PORT')
+    version = get_database_version(connection, engine) or ''
 
     connection_info = {
         connection.alias: {
-            'version': get_database_version(connection, engine),
+            'version': version,
             'name': name,
             'engine': engine,
             'host': host,
@@ -27,13 +28,15 @@ def get_connection_info(connection):
 
 
 def get_database_version(connection, engine):
-    if engine in ['django.db.backends.postgresql_psycopg2',
-                  'django.db.backends.mysql']:
-        query = 'SELECT version();'
-    elif engine == 'django.db.backends.sqlite3':
-        query = 'select sqlite_version();'
-    elif engine == 'django.db.backends.oracle':
-        query = 'select * from v$version;'
+    if connection.settings_dict['ENGINE'] == 'django.db.backends.dummy':
+        return None
+    engines = {
+        'django.db.backends.postgresql_psycopg2': 'SELECT version();',
+        'django.db.backends.mysql': 'SELECT version();',
+        'django.db.backends.sqlite3': 'select sqlite_version();',
+        'django.db.backends.oracle': 'select * from v$version;',
+    }
+    query = engines[engine]
     return execute_sql(connection, query)
 
 

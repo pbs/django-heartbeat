@@ -20,7 +20,7 @@ sys.modules['redis.connection'] = mock.Mock()
 sys.modules['redis.connection'].ConnectionError = ConnectionError
 
 from heartbeat.checkers import (
-    build_version, debug_mode, distribution_list, redis_status)
+    build_version, debug_mode, distribution_list, redis_status, databases)
 
 if not settings.configured:
     settings.configure()
@@ -98,3 +98,23 @@ class TestCheckers(object):
         with pytest.raises(ImproperlyConfigured) as e:
             heartbeat_settings.prepare_redis(HEARTBEAT)
         assert 'Missing CACHEOPS_REDIS in project settings' in str(e)
+
+    def test_dummy_databases(self):
+        dbs = databases.check(request=None)
+        engine = dbs['databases'][0]['default']['engine']
+        assert engine == 'django.db.backends.dummy'
+
+    @mock.patch('django.db.utils.ConnectionHandler')
+    @mock.patch('django.db.backends.utils.CursorWrapper')
+    def test_db_version(self, mock_cursor, mock_psy):
+        mock_psy.return_value = Mock()
+        mock_cursor.return_value.fetchone.return_value = ['1.0.0']
+        dbs = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': 'foo'
+            }
+        }
+        setattr(settings, 'DATABASES', dbs)
+        dbs = databases.check(request=None)
+        assert dbs['databases'][0]['default']['version'] == '1.0.0'
