@@ -16,4 +16,4 @@ def check(request):
     except DistributionNotFound:
         value = 'no distribution found for {}'.format(package_name)
 
-    return {'project_version': value}
+    return value

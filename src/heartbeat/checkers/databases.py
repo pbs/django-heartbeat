@@ -5,7 +5,7 @@ def check(request):
     databases_info = []
     for db in connections:
         databases_info.append(get_connection_info(connections[db]))
-    return {'databases': databases_info}
+    return databases_info
 
 
 def get_connection_info(connection):

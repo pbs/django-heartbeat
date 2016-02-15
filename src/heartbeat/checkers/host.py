@@ -13,7 +13,6 @@ for nic, addrs in psutil.net_if_addrs().items():
 
 def check(request):
     return {
-        'host_info': {
             'hostname': socket.gethostname(),
             'ips': ips,
             'cpus': psutil.cpu_count(),
@@ -32,4 +31,3 @@ def check(request):
                 'percent': psutil.swap_memory().percent
             }
         }
-    }

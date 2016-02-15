@@ -3,7 +3,6 @@ import sys
 
 def check(request):
     return {
-        'python': {
             'version': '{major}.{minor}.{micro}'.format(
                 major=sys.version_info.major,
                 minor=sys.version_info.minor,
@@ -13,4 +12,3 @@ def check(request):
             'executable': sys.executable,
             'platform': sys.platform
         }
-    }
