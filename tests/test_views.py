@@ -50,7 +50,7 @@ class TestDetailsView:
         assert response.status_code == 200
         assert response['content-type'] == 'application/json'
         json_response = json.loads(response.content.decode('utf-8'))
-        assert json_response['ping'] == 'pong'
+        assert json_response['checkers']['test_views']['ping'] == 'pong'
 
     def test_with_invalid_basic_auth_credentials(self):
         self.factory.defaults.pop('HTTP_AUTHORIZATION')
