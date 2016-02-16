@@ -67,6 +67,8 @@ e.g.:
 If no checkers are defined, heartbeat will default to the following:
 - `heartbeat.checkers.distribution_list`
 - `heartbeat.checkers.debug_mode`
+- `heartbeat.checkers.python_version`
+
 
 # Available checkers
 
@@ -84,6 +86,17 @@ If no checkers are defined, heartbeat will default to the following:
 `heartbeat.checkers.redis_status`
   - checks your connection with the Redis server
   - Make sure that you have CACHEOPS_REDIS configured properly in your settings.py
+
+`heartbeat.checkers.python_version`
+  - lists the current python version
+  
+`heartbeat.checkers.host`
+  - displays various information about your system
+  (e.g. hostname, number of CPUs, uptime, used/free memory, etc.)
+  
+`heartbeat.checkers.databases`
+  - displays information about the connection with your configured databases
+
 
 # Implementing your own checker
 - my_checker.py:
