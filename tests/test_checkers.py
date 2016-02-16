@@ -20,7 +20,7 @@ sys.modules['redis.connection'] = mock.Mock()
 sys.modules['redis.connection'].ConnectionError = ConnectionError
 
 from heartbeat.checkers import (
-    build_version, debug_mode, distribution_list, redis_status)
+    build_version, debug_mode, distribution_list, redis_status, databases)
 
 if not settings.configured:
     settings.configure()
@@ -44,7 +44,7 @@ class TestCheckers(object):
         setattr(settings, 'HEARTBEAT', {'package_name': 'django'})
         dist.side_effect = DistributionNotFound
         distro = build_version.check(request=None)
-        assert distro['project_version'] == 'no distribution found for django'
+        assert distro == 'no distribution found for django'
 
     @mock.patch('heartbeat.checkers.build_version.get_distribution')
     def test_build_version_with_valid_package_name(self, dist):
@@ -52,13 +52,13 @@ class TestCheckers(object):
         dist.return_value.project_name = 'foo'
         dist.return_value.version = '1.0.0'
         distro = build_version.check(request=None)
-        assert distro['project_version'] == 'foo==1.0.0'
+        assert distro == 'foo==1.0.0'
 
     @pytest.mark.parametrize('mode', [True, False])
     def test_debug_mode(self, mode):
         setattr(settings, 'DEBUG', mode)
         debug = debug_mode.check(request=None)
-        assert debug['debug_mode'] == mode
+        assert debug == mode
 
     @mock.patch(
         'heartbeat.checkers.distribution_list.get_installed_distributions')
@@ -66,8 +66,8 @@ class TestCheckers(object):
         dist_list.return_value = [
             Mock(project_name=i, version='1.0.0') for i in range(3)]
         distro = distribution_list.check(request=None)
-        assert {'version': '1.0.0', 'name': 1} in distro['distribution_list']
-        assert {'version': '1.0.0', 'name': 2} in distro['distribution_list']
+        assert {'version': '1.0.0', 'name': 1} in distro
+        assert {'version': '1.0.0', 'name': 2} in distro
 
     @mock.patch('heartbeat.checkers.redis_status.redis.StrictRedis')
     def test_redis_status(self, mock_redis):
@@ -75,8 +75,8 @@ class TestCheckers(object):
         mock_redis.return_value.ping.return_value = 'PONG'
         mock_redis.return_value.info.return_value = {'redis_version': '1.0.0'}
         status = redis_status.check(request=None)
-        assert status['redis']['ping'] == 'PONG'
-        assert status['redis']['version'] == '1.0.0'
+        assert status['ping'] == 'PONG'
+        assert status['version'] == '1.0.0'
 
     @mock.patch('heartbeat.checkers.redis_status.redis')
     def test_redis_connection_error(self, mock_redis):
@@ -98,3 +98,21 @@ class TestCheckers(object):
         with pytest.raises(ImproperlyConfigured) as e:
             heartbeat_settings.prepare_redis(HEARTBEAT)
         assert 'Missing CACHEOPS_REDIS in project settings' in str(e)
+
+    # def test_dummy_databases(self):
+    #     dbs = databases.check(request=None)
+    #     engine = dbs['databases'][0]['default']['engine']
+    #     assert engine == 'django.db.backends.dummy'
+
+    @mock.patch('django.db.backends.utils.CursorWrapper')
+    def test_db_version(self, mock_cursor):
+        mock_cursor.return_value.fetchone.return_value = ['1.0.0']
+        dbs = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': 'foo'
+            }
+        }
+        setattr(settings, 'DATABASES', dbs)
+        dbs = databases.check(request=None)
+        assert dbs[0]['default']['version'] == '1.0.0'

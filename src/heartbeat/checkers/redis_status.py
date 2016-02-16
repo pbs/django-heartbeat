@@ -22,8 +22,6 @@ def check(request):
         return {'redis': {'error': str(e)}}
 
     return {
-        'redis': {
             'ping': ping,
             'version': redis_con.info().get('redis_version')
         }
-    }
