@@ -10,7 +10,7 @@ from setuptools import setup
 
 setup(
     name='django-heartbeat',
-    version='1.0.4',
+    version='1.0.5',
     description="Your project's heartbeat/healthcheck and dependency status",
     long_description=('A simple reusable app that checks and lists '
                       'various information about your project and its '
