@@ -77,25 +77,31 @@ If no checkers are defined, heartbeat will default to the following:
   - Please be aware that in order for this checker to work you have to add the
   'package_name': 'foo_package' key, value pair in the HEARTBEAT settings
 
-`heartbeat.checkers.distribution_list`
-  - lists all installed dependencies
+`heartbeat.checkers.databases`
+  - displays information about the connection with your configured databases
 
 `heartbeat.checkers.debug_mode`
   - displays whether the DEBUG mode is set to True or False
+
+`heartbeat.checkers.distribution_list`
+  - lists all installed dependencies
+  
+`heartbeat.checkers.host`
+  - displays various information about your system
+  (e.g. hostname, number of CPUs, uptime, used/free memory, etc.)
+
+`heartbeat.checkers.memcached`
+  - displays stats about your Memcached.
+  - Before enabling this checker please make sure that you have installed the appropriate Memcached binding (the two most common are [python-memcached](https://pypi.python.org/pypi/python-memcached) and [pylibmc](https://pypi.python.org/pypi/pylibmc))
+
+`heartbeat.checkers.python_version`
+  - lists the current python version
 
 `heartbeat.checkers.redis_status`
   - checks your connection with the Redis server
   - Make sure that you have CACHEOPS_REDIS configured properly in your settings.py
 
-`heartbeat.checkers.python_version`
-  - lists the current python version
-  
-`heartbeat.checkers.host`
-  - displays various information about your system
-  (e.g. hostname, number of CPUs, uptime, used/free memory, etc.)
-  
-`heartbeat.checkers.databases`
-  - displays information about the connection with your configured databases
+
 
 
 # Implementing your own checker
