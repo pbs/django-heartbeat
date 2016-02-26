@@ -44,7 +44,8 @@ if 'heartbeat' in settings.INSTALLED_APPS:
 
   If you want a more detailed view of some custom checkers you MUST configure a
 custom profile for heartbeat in your settings.py. The profile should be
-a dictionary containing at least the basic auth credentials.
+a dictionary containing at least the basic auth credentials or the key `disable`
+set to `True` to disable basic authentication.
 
 e.g.:
 
