@@ -35,6 +35,12 @@ def get_database_version(connection, engine):
         'django.db.backends.mysql': 'SELECT version();',
         'django.db.backends.sqlite3': 'select sqlite_version();',
         'django.db.backends.oracle': 'select * from v$version;',
+        'django.contrib.gis.db.backends.mysql': 'SELECT version();',
+        'django.contrib.gis.db.backends.postgis': 'SELECT version();',
+        'django.contrib.gis.db.backends.spatialite': (
+            'select sqlite_version();'
+        ),
+        'django.contrib.gis.db.backends.oracle': 'select * from v$version;',
     }
     query = engines[engine]
     return execute_sql(connection, query)
