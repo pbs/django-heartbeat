@@ -14,7 +14,10 @@ def auth(func):
         auth = get_auth()
         if 'authorized_ips' in auth:
             ip = get_client_ip(request)
-            if ip in auth['authorized_ips']:
+            if any(
+                    re.compile(regex).match(ip)
+                    for regex in auth['authorized_ips']
+            ):
                 return func(request, *args, **kwargs)
 
         prepare_credentials(auth)
