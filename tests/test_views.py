@@ -75,6 +75,19 @@ class TestDetailsView:
                'for heartbeat')
         assert msg == str(e.value)
 
+    def test_regex_rem_match(self):
+        self.heartbeat['auth'].update(
+            {
+                'username': 'blow',
+                'password': 'fish',
+                'authorized_ips': ['1.+']
+            }
+        )
+        request = self.factory.get(
+            reverse('1337'), **{'REMOTE_ADDR': '1.3.3.7'})
+        response = details(request)
+        assert response.status_code == 200
+
     def test(self):
         self.heartbeat['auth'].update({'username': 'blow', 'password': 'fish'})
         request = self.factory.get(
