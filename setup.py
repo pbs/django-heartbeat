@@ -10,7 +10,7 @@ from setuptools import setup
 
 setup(
     name='django-heartbeat',
-    version='1.0.6',
+    version='1.0.7',
     description="Your project's heartbeat/healthcheck and dependency status",
     long_description=('A simple reusable app that checks and lists '
                       'various information about your project and its '
@@ -25,7 +25,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Django>=1.7,<1.9',
+        'Django>=1.6,<1.9',
         'psutil==4.0.0',
     ]
 )

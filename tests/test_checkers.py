@@ -105,17 +105,22 @@ class TestCheckers(object):
     #     engine = dbs['databases'][0]['default']['engine']
     #     assert engine == 'django.db.backends.dummy'
 
-    @mock.patch('django.db.backends.utils.CursorWrapper')
-    def test_db_version(self, mock_cursor):
-        mock_cursor.return_value.fetchone.return_value = ['1.0.0']
-        dbs = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': 'foo'
+    def test_db_version(self):
+        import django
+        if django.VERSION >= (1, 7):
+            cursor = 'django.db.backends.utils.CursorWrapper'
+        else:
+            cursor = 'django.db.backends.util.CursorWrapper'
+        with mock.patch(cursor) as mock_cursor:
+            mock_cursor.return_value.fetchone.return_value = ['1.0.0']
+            dbs = {
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': 'foo'
+                }
             }
-        }
-        setattr(settings, 'DATABASES', dbs)
-        dbs = databases.check(request=None)
+            setattr(settings, 'DATABASES', dbs)
+            dbs = databases.check(request=None)
         assert dbs[0]['default']['version'] == '1.0.0'
 
     @mock.patch('heartbeat.checkers.memcached.get_cache')

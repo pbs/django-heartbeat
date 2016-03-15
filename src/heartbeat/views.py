@@ -1,6 +1,7 @@
+import json
 from collections import OrderedDict
 from importlib import import_module
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 
 from .auth import auth
 from .settings import HEARTBEAT
@@ -18,4 +19,7 @@ def details(request):
         checker_name = checker_module.__name__.split('.')[-1]
         data = checker_module.check(request)
         response.update({checker_name: data})
-    return JsonResponse({'checkers': OrderedDict(sorted(response.items()))})
+
+    data = {'checkers': OrderedDict(sorted(response.items()))}
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
