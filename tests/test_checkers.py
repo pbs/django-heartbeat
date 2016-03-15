@@ -85,13 +85,13 @@ class TestCheckers(object):
         mock_ping = mock_redis.StrictRedis.return_value.ping
         mock_ping.side_effect = ConnectionError('foo')
         status = redis_status.check(request=None)
-        assert status['redis']['error'] == 'foo', status
+        assert status['error'] == 'foo', status
 
     @mock.patch('heartbeat.checkers.redis_status.redis')
     def test_redis_import_error(self, mock_redis):
         mock_redis.StrictRedis.side_effect = NameError
         status = redis_status.check(request=None)
-        assert status['redis']['error'] == 'cannot import redis library'
+        assert status['error'] == 'cannot import redis library'
 
     def test_prepare_redis(self):
         delattr(settings, 'CACHEOPS_REDIS')

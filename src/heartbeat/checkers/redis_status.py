@@ -17,9 +17,9 @@ def check(request):
             host=host, port=port, db=db, socket_timeout=socket_timeout)
         ping = redis_con.ping()
     except NameError:
-        return {'redis': {'error': 'cannot import redis library'}}
+        return {'error': 'cannot import redis library'}
     except ConnectionError as e:
-        return {'redis': {'error': str(e)}}
+        return {'error': str(e)}
 
     return {
             'ping': ping,
