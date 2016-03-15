@@ -75,6 +75,17 @@ class TestDetailsView:
                'for heartbeat')
         assert msg == str(e.value)
 
+    def test_disabled_auth(self):
+        self.heartbeat['auth'] = {'disable': True}
+        # Make factory without auth header
+        self.factory = RequestFactory()
+        request = self.factory.get(reverse('1337'))
+        response = details(request)
+        assert response.status_code == 200
+        assert response['content-type'] == 'application/json'
+        json_response = json.loads(response.content.decode('utf-8'))
+        assert json_response['checkers']['test_views']['ping'] == 'pong'
+
     def test(self):
         self.heartbeat['auth'].update({'username': 'blow', 'password': 'fish'})
         request = self.factory.get(

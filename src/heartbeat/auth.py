@@ -12,11 +12,12 @@ def auth(func):
     @wraps(func)
     def _decorator(request, *args, **kwargs):
         auth = get_auth()
+        if auth.get('disable', False) is True:
+            return func(request, *args, **kwargs)
         if 'authorized_ips' in auth:
             ip = get_client_ip(request)
             if ip in auth['authorized_ips']:
                 return func(request, *args, **kwargs)
-
         prepare_credentials(auth)
         if request.META.get('HTTP_AUTHORIZATION'):
             authmeth, auth = request.META['HTTP_AUTHORIZATION'].split(' ')
