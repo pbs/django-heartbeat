@@ -8,14 +8,14 @@ def default_checkers():
         heartbeat['checkers'] = [
             'heartbeat.checkers.distribution_list',
             'heartbeat.checkers.debug_mode',
-            'heartbeat.checkers.python_version',
+            'heartbeat.checkers.python',
         ]
     prepare_redis(heartbeat)
     return heartbeat
 
 
 def prepare_redis(heartbeat):
-    if 'heartbeat.checkers.redis_status' in heartbeat['checkers']:
+    if 'heartbeat.checkers.redis' in heartbeat['checkers']:
         redis = getattr(settings, 'CACHEOPS_REDIS', None)
         if redis is None:
             raise ImproperlyConfigured(

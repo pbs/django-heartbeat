@@ -11,9 +11,7 @@ def check(request):
 
     try:
         distro = get_distribution(package_name)
-        value = '{project}=={version}'.format(
-                project=distro.project_name, version=distro.version)
     except DistributionNotFound:
-        value = 'no distribution found for {}'.format(package_name)
+        return dict(error='no distribution found for {}'.format(package_name))
 
-    return value
+    return dict(name=distro.project_name, version=distro.version)

@@ -8,21 +8,19 @@ except ImportError:
 
 
 def check(request):
-    all_stats = {}
-    for cache_profile in settings.CACHES:
+    all_stats = []
+    for alias in settings.CACHES:
         server_stats = []
-        if is_memcached_profile(cache_profile):
-            cache_backend = get_cache(cache_profile)
+        if is_memcached_profile(alias):
+            cache_backend = get_cache(alias)
             for server, stats in cache_backend._cache.get_stats():
                 stats = debyteify(stats)
                 result = OrderedDict()
-                result['location'] = debyteify(server)
+                result['name'] = debyteify(server)
                 result['summary'] = get_summary(stats)
                 result['details'] = stats
                 server_stats.append(result)
-            all_stats[cache_profile] = server_stats
-    if not all_stats:
-        return {'error': 'No memcached profiles found'}
+            all_stats.append(dict(alias=alias, locations=server_stats))
     return all_stats
 
 

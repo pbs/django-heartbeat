@@ -20,6 +20,6 @@ def details(request):
         data = checker_module.check(request)
         response.update({checker_name: data})
 
-    data = {'checkers': OrderedDict(sorted(response.items()))}
+    data = OrderedDict(sorted(response.items()))
 
     return HttpResponse(json.dumps(data), content_type="application/json")

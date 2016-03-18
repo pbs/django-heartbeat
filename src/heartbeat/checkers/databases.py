@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from django.db import connections, OperationalError
 
 
@@ -9,27 +10,22 @@ def check(request):
 
 
 def get_connection_info(connection):
-    engine = connection.settings_dict.get('ENGINE')
-    name = connection.settings_dict.get('NAME')
-    host = connection.settings_dict.get('HOST')
-    port = connection.settings_dict.get('PORT')
-    version = get_database_version(connection, engine) or ''
+    connection_info = OrderedDict()
 
-    connection_info = {
-        connection.alias: {
-            'version': version,
-            'name': name,
-            'engine': engine,
-            'host': host,
-            'port': port,
-        }
-    }
+    engine = connection.settings_dict.get('ENGINE')
+
+    connection_info['alias'] = connection.alias
+    connection_info['name'] = connection.settings_dict.get('NAME')
+    connection_info['engine'] = engine
+    connection_info['version'] = get_database_version(connection, engine)
+    connection_info['host'] = connection.settings_dict.get('HOST')
+    connection_info['port'] = connection.settings_dict.get('PORT')
     return connection_info
 
 
 def get_database_version(connection, engine):
     if connection.settings_dict['ENGINE'] == 'django.db.backends.dummy':
-        return None
+        return
     engines = {
         'django.db.backends.postgresql_psycopg2': 'SELECT version();',
         'django.db.backends.mysql': 'SELECT version();',
@@ -53,5 +49,5 @@ def execute_sql(connection, stmt):
         return {'error': str(e)}
 
     cursor.execute(stmt)
-    result = cursor.fetchone()
-    return result[0]
+    result = cursor.fetchone()[0]
+    return result
