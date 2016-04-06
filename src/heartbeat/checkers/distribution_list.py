@@ -1,8 +1,8 @@
-from pip import get_installed_distributions
+from pkg_resources import WorkingSet
 
 
 def check(request):
     return [
-            {'name': i.project_name, 'version': i.version} for i in
-            get_installed_distributions()
-        ]
+        {'name': distribution.project_name, 'version': distribution.version}
+        for distribution in WorkingSet()
+    ]
