@@ -62,7 +62,7 @@ class TestCheckers(object):
         assert debug == mode
 
     @mock.patch(
-        'heartbeat.checkers.distribution_list.get_installed_distributions')
+        'heartbeat.checkers.distribution_list.WorkingSet')
     def test_get_distribution_list(self, dist_list):
         dist_list.return_value = [
             Mock(project_name=i, version='1.0.0') for i in range(3)]
