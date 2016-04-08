@@ -40,20 +40,17 @@ class TestCheckers(object):
         msg = 'Missing package_name key from heartbeat configuration'
         assert msg in str(e)
 
-    @mock.patch('heartbeat.checkers.build.get_distribution')
-    def test_build_version_invalid_package_name(self, dist):
-        setattr(settings, 'HEARTBEAT', {'package_name': 'django'})
-        dist.side_effect = DistributionNotFound
+    def test_build_version_invalid_package_name(self):
+        setattr(settings, 'HEARTBEAT', {'package_name': 'missing-package'})
         distro = build.check(request=None)
-        assert distro == {'error': 'no distribution found for django'}
+        assert distro == {'error': 'no distribution found for missing-package'}
 
-    @mock.patch('heartbeat.checkers.build.get_distribution')
-    def test_build_version_with_valid_package_name(self, dist):
+    def test_build_version_with_valid_package_name(self):
+        package = Mock(project_name='foo', version='1.0.0')
         setattr(settings, 'HEARTBEAT', {'package_name': 'foo'})
-        dist.return_value.project_name = 'foo'
-        dist.return_value.version = '1.0.0'
-        distro = build.check(request=None)
-        assert distro == {'name': 'foo', 'version': '1.0.0'}
+        with mock.patch.object(build.WorkingSet, 'find', return_value=package):
+            distro = build.check(request=None)
+            assert distro == {'name': 'foo', 'version': '1.0.0'}
 
     @pytest.mark.parametrize('mode', [True, False])
     def test_debug_mode(self, mode):

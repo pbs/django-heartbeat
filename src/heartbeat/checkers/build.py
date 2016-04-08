@@ -1,6 +1,7 @@
+from pkg_resources import Requirement, WorkingSet
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from pkg_resources import get_distribution, DistributionNotFound
 
 
 def check(request):
@@ -9,9 +10,11 @@ def check(request):
         raise ImproperlyConfigured(
             'Missing package_name key from heartbeat configuration')
 
-    try:
-        distro = get_distribution(package_name)
-    except DistributionNotFound:
+    sys_path_distros = WorkingSet()
+    package_req = Requirement.parse(package_name)
+
+    distro = sys_path_distros.find(package_req)
+    if not distro:
         return dict(error='no distribution found for {}'.format(package_name))
 
     return dict(name=distro.project_name, version=distro.version)
