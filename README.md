@@ -68,7 +68,7 @@ e.g.:
 If no checkers are defined, heartbeat will default to the following:
 - `heartbeat.checkers.distribution_list`
 - `heartbeat.checkers.debug_mode`
-- `heartbeat.checkers.python_version`
+- `heartbeat.checkers.python`
 
 
 # Available checkers
