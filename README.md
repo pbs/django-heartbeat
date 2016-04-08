@@ -53,10 +53,10 @@ e.g.:
   HEARTBEAT = {
       'package_name': 'foo_project',
       'checkers': [
-          'heartbeat.checkers.build_version',
+          'heartbeat.checkers.build',
           'heartbeat.checkers.distribution_list',
           'heartbeat.checkers.debug_mode',
-          'heartbeat.checkers.redis_status',
+          'heartbeat.checkers.redis',
       ],
       'auth': {
           'username': 'foo',
@@ -73,7 +73,7 @@ If no checkers are defined, heartbeat will default to the following:
 
 # Available checkers
 
-`heartbeat.checkers.build_version`
+`heartbeat.checkers.build`
   - lists information about installed package
   - Please be aware that in order for this checker to work you have to add the
   'package_name': 'foo_package' key, value pair in the HEARTBEAT settings
@@ -95,10 +95,10 @@ If no checkers are defined, heartbeat will default to the following:
   - displays stats about your Memcached.
   - Before enabling this checker please make sure that you have installed the appropriate Memcached binding (the two most common are [python-memcached](https://pypi.python.org/pypi/python-memcached) and [pylibmc](https://pypi.python.org/pypi/pylibmc))
 
-`heartbeat.checkers.python_version`
+`heartbeat.checkers.python`
   - lists the current python version
 
-`heartbeat.checkers.redis_status`
+`heartbeat.checkers.redis`
   - checks your connection with the Redis server
   - Make sure that you have CACHEOPS_REDIS configured properly in your settings.py
 
