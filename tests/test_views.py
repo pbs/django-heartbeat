@@ -86,6 +86,34 @@ class TestDetailsView:
         json_response = json.loads(response.content.decode('utf-8'))
         assert json_response['test_views']['ping'] == 'pong'
 
+    @pytest.mark.parametrize('ip,status',
+                             [('1.3.2.7', 200), ('1.3.2.127', 200),
+                              ('1.3.2.128', 401), ('1.3.3.7', 401)])
+    def test_authorized_ips_with_ip_network(self, ip, status):
+        self.heartbeat['auth'].update({'username': 'blow', 'password': 'fish'})
+        self.heartbeat['auth']['authorized_ips'] = ['1.3.2.0/25']
+        request = self.factory.get(
+            reverse('1337'), **{'REMOTE_ADDR': ip})
+        response = details(request)
+        assert response.status_code == status
+
+    def test_authorized_ips_bad_ip_list_falls_back_to_basic_auth(self):
+        bad_authorized_ips = ['foo', '1', '1.3.3.7/256', '1.3.2.0/foo']
+        self.heartbeat['auth']['authorized_ips'] = bad_authorized_ips
+        request = self.factory.get(
+            reverse('1337'), **{'REMOTE_ADDR': '1.3.3.7'})
+        response = details(request)
+        assert response.status_code == 200
+
+    def test_authorized_ips_bad_ip_list_falls_back_to_bad_basic_auth(self):
+        bad_authorized_ips = ['foo', '1', '1.3.3.7/256', '1.3.2.0/foo']
+        self.heartbeat['auth'].update({'username': 'blow', 'password': 'fish'})
+        self.heartbeat['auth']['authorized_ips'] = bad_authorized_ips
+        request = self.factory.get(
+            reverse('1337'), **{'REMOTE_ADDR': '1.3.3.7'})
+        response = details(request)
+        assert response.status_code == 401
+
     def test(self):
         self.heartbeat['auth'].update({'username': 'blow', 'password': 'fish'})
         request = self.factory.get(
