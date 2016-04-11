@@ -23,7 +23,7 @@ if not settings.configured:
     settings.configure()
 from heartbeat.checkers import (
     build, debug_mode, distribution_list, redis_status, databases,
-    memcached)
+    memcached_status)
 
 from heartbeat import settings as heartbeat_settings
 
@@ -117,9 +117,9 @@ class TestCheckers(object):
         assert len(dbs) == 1
         assert dbs[0]['version'] == '1.0.0'
 
-    @mock.patch('heartbeat.checkers.memcached.get_cache')
+    @mock.patch('heartbeat.checkers.memcached_status.get_cache')
     @pytest.mark.parametrize('backend', ['MemcachedCache', 'PyLibMCCache'])
-    def test_memcached(self, mock_get_cache, backend):
+    def test_memcached_status(self, mock_get_cache, backend):
         caches = {
             'foo': {
                 'BACKEND': 'django.core.cache.backends.memcached.{}'.format(
@@ -131,7 +131,7 @@ class TestCheckers(object):
         mock_get_cache.return_value._cache.get_stats.return_value = [
             (server, stats)]
         setattr(settings, 'CACHES', caches)
-        all_stats = memcached.check(request=None)
+        all_stats = memcached_status.check(request=None)
         assert len(all_stats) == 1
         assert len(all_stats[0]['locations']) == 1
         location = all_stats[0]['locations'][0]
@@ -140,20 +140,20 @@ class TestCheckers(object):
         assert location['details']['foo'] == 'bar'
         assert len(location['details'].items()) == 5
 
-    def test_memcached_with_no_profiles(self):
+    def test_memcached_status_with_no_profiles(self):
         setattr(settings, 'CACHES', dict())
-        all_stats = memcached.check(request=None)
+        all_stats = memcached_status.check(request=None)
         assert len(all_stats) == 0
 
-    def test_memcached_with_no_memcached_profiles(self):
+    def test_memcached_status_with_no_memcached_profiles(self):
         caches = {
             'foo': {'BACKEND': 'django.core.cache.backends.db.DatabaseCache'}
         }
         setattr(settings, 'CACHES', caches)
-        all_stats = memcached.check(request=None)
+        all_stats = memcached_status.check(request=None)
         assert len(all_stats) == 0
 
-    @mock.patch('heartbeat.checkers.memcached.get_cache')
+    @mock.patch('heartbeat.checkers.memcached_status.get_cache')
     def test_memcached_with_different_cache_backends(self, mock_get_cache):
         backends = 'django.core.cache.backends'
         caches = {
@@ -166,7 +166,7 @@ class TestCheckers(object):
         mock_get_cache.return_value._cache.get_stats.return_value = (
             [(server, stats)])
         setattr(settings, 'CACHES', caches)
-        all_stats = memcached.check(request=None)
+        all_stats = memcached_status.check(request=None)
         assert len(all_stats) == 1
         assert len(all_stats[0]['locations']) == 1
         location = all_stats[0]['locations'][0]
