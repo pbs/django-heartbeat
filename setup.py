@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
+import sys
 from glob import glob
 from os.path import basename
 from os.path import splitext
@@ -7,6 +8,13 @@ from os.path import splitext
 from setuptools import find_packages
 from setuptools import setup
 
+requires = [
+    'Django>=1.6,<1.9',
+    'psutil==4.0.0',
+]
+
+if sys.version_info < (3, 3, 0):
+    requires.append('py2-ipaddress>=3.4.0')
 
 setup(
     name='django-heartbeat',
@@ -24,8 +32,5 @@ setup(
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'Django>=1.6,<1.9',
-        'psutil==4.0.0',
-    ]
+    install_requires=requires
 )

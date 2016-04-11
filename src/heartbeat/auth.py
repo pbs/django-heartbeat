@@ -1,11 +1,17 @@
 import re
 import base64
-
+import logging
 from functools import wraps
+from ipaddress import ip_address, ip_network
 
 from .settings import HEARTBEAT
 from django.http import HttpResponse
 from django.core.exceptions import ImproperlyConfigured
+
+logging.basicConfig(
+    format='%(levelname)s - %(message)s',
+    level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def auth(func):
@@ -16,7 +22,7 @@ def auth(func):
             return func(request, *args, **kwargs)
         if 'authorized_ips' in auth:
             ip = get_client_ip(request)
-            if ip in auth['authorized_ips']:
+            if is_authorized(ip, auth['authorized_ips']):
                 return func(request, *args, **kwargs)
         prepare_credentials(auth)
         if request.META.get('HTTP_AUTHORIZATION'):
@@ -80,3 +86,20 @@ def get_client_ip(request):
             continue
         else:
             return ip
+
+
+def is_authorized(ip, authorized_ips):
+    ip = ip_address(ip)
+
+    for item in authorized_ips:
+        try:
+            if ip == ip_address(item):
+                return True
+        except ValueError:
+            try:
+                if ip in ip_network(item):
+                    return True
+            except ValueError:
+                logger.warn('The "authorized_ip" list (settings.HEARTBEAT)'
+                            'contains an item that is neither an ip address '
+                            'nor an ip network: {}'.format(item))
