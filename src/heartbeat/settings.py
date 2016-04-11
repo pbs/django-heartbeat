@@ -15,7 +15,7 @@ def default_checkers():
 
 
 def prepare_redis(heartbeat):
-    if 'heartbeat.checkers.redis' in heartbeat['checkers']:
+    if 'heartbeat.checkers.redis_status' in heartbeat['checkers']:
         redis = getattr(settings, 'CACHEOPS_REDIS', None)
         if redis is None:
             raise ImproperlyConfigured(

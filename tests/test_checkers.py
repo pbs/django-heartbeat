@@ -22,7 +22,7 @@ sys.modules['redis.connection'].ConnectionError = ConnectionError
 if not settings.configured:
     settings.configure()
 from heartbeat.checkers import (
-    build, debug_mode, distribution_list, redis, databases,
+    build, debug_mode, distribution_list, redis_status, databases,
     memcached)
 
 from heartbeat import settings as heartbeat_settings
@@ -67,17 +67,17 @@ class TestCheckers(object):
         assert {'version': '1.0.0', 'name': 1} in distro
         assert {'version': '1.0.0', 'name': 2} in distro
 
-    @mock.patch('heartbeat.checkers.redis.redis')
+    @mock.patch('heartbeat.checkers.redis_status.redis')
     def test_redis_status(self, mock_redis):
         setattr(settings, 'CACHEOPS_REDIS', {'host': 'foo', 'port': 1337})
         mock_redis.StrictRedis.return_value.ping.return_value = 'PONG'
         mock_redis.StrictRedis.return_value.info.return_value = {
             'redis_version': '1.0.0'}
-        status = redis.check(request=None)
+        status = redis_status.check(request=None)
         assert status['ping'] == 'PONG'
         assert status['version'] == '1.0.0'
 
-    # @mock.patch('heartbeat.checkers.redis.redis')
+    # @mock.patch('heartbeat.checkers.redis_status.redis')
     # def test_redis_connection_error(self, mock_redis):
     #     setattr(settings, 'CACHEOPS_REDIS', {'host': 'foo', 'port': 1337})
     #     mock_ping = mock_redis.StrictRedis.return_value.ping
@@ -85,15 +85,15 @@ class TestCheckers(object):
     #     status = redis.check(request=None)
     #     assert status['error'] == 'foo', status
 
-    @mock.patch('heartbeat.checkers.redis.redis')
+    @mock.patch('heartbeat.checkers.redis_status.redis')
     def test_redis_import_error(self, mock_redis):
         mock_redis.StrictRedis.side_effect = NameError
-        status = redis.check(request=None)
+        status = redis_status.check(request=None)
         assert status['error'] == 'cannot import redis library'
 
     def test_prepare_redis(self):
         delattr(settings, 'CACHEOPS_REDIS')
-        HEARTBEAT = {'checkers': ['heartbeat.checkers.redis']}
+        HEARTBEAT = {'checkers': ['heartbeat.checkers.redis_status']}
         with pytest.raises(ImproperlyConfigured) as e:
             heartbeat_settings.prepare_redis(HEARTBEAT)
         assert 'Missing CACHEOPS_REDIS in project settings' in str(e)
