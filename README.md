@@ -56,7 +56,6 @@ e.g.:
           'heartbeat.checkers.build',
           'heartbeat.checkers.distribution_list',
           'heartbeat.checkers.debug_mode',
-          'heartbeat.checkers.redis',
       ],
       'auth': {
           'username': 'foo',
@@ -72,6 +71,9 @@ If no checkers are defined, heartbeat will default to the following:
 
 
 # Available checkers
+
+Please make sure you have the latest version of django-heartbeat since checker names changed in versions 1.0.8 and 2.0.0.
+If for some reason you cannot install the latest version, read the release notes for the version you have and the versions mentioned above.
 
 `heartbeat.checkers.build`
   - lists information about installed package
@@ -91,14 +93,14 @@ If no checkers are defined, heartbeat will default to the following:
   - displays various information about your system
   (e.g. hostname, number of CPUs, uptime, used/free memory, etc.)
 
-`heartbeat.checkers.memcached`
+`heartbeat.checkers.memcached_status`
   - displays stats about your Memcached.
   - Before enabling this checker please make sure that you have installed the appropriate Memcached binding (the two most common are [python-memcached](https://pypi.python.org/pypi/python-memcached) and [pylibmc](https://pypi.python.org/pypi/pylibmc))
 
 `heartbeat.checkers.python`
   - lists the current python version
 
-`heartbeat.checkers.redis`
+`heartbeat.checkers.redis_status`
   - checks your connection with the Redis server
   - Make sure that you have CACHEOPS_REDIS configured properly in your settings.py
 
