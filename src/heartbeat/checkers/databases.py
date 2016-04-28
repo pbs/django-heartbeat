@@ -27,6 +27,7 @@ def get_database_version(connection, engine):
     if connection.settings_dict['ENGINE'] == 'django.db.backends.dummy':
         return
     engines = {
+        'django.db.backends.postgresql': 'SELECT version();',
         'django.db.backends.postgresql_psycopg2': 'SELECT version();',
         'django.db.backends.mysql': 'SELECT version();',
         'django.db.backends.sqlite3': 'select sqlite_version();',
