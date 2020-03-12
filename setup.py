@@ -10,7 +10,7 @@ from setuptools import setup
 
 requires = [
     'Django>=1.6',
-    'psutil==4.0.0',
+    'psutil==5.6.6',
 ]
 
 if sys.version_info < (3, 3, 0):
