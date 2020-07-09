@@ -3,7 +3,6 @@ import sys
 import pytest
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from pkg_resources import DistributionNotFound
 
 try:
     from unittest import mock
@@ -14,6 +13,7 @@ except ImportError:
 
 class ConnectionError(Exception):
     pass
+
 
 sys.modules['redis'] = mock.Mock()
 sys.modules['redis.connection'] = mock.Mock()

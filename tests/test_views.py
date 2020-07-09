@@ -8,8 +8,8 @@ if not settings.configured:
 from django.test import RequestFactory
 try:
     from django.urls import reverse
-except ImportError: # Django < 2
-     from django.core.urlresolvers import reverse
+except ImportError:  # Django < 2
+    from django.core.urlresolvers import reverse
 
 from django.core.exceptions import ImproperlyConfigured
 
