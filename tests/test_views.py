@@ -6,7 +6,11 @@ if not settings.configured:
     settings.configure()
 
 from django.test import RequestFactory
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:  # Django < 2
+    from django.core.urlresolvers import reverse
+
 from django.core.exceptions import ImproperlyConfigured
 
 from heartbeat.views import index, details
