@@ -18,7 +18,7 @@ if sys.version_info < (3, 3, 0):
 
 setup(
     name='django-heartbeat',
-    version='2.0.2',
+    version='2.0.3',
     description="Your project's heartbeat/healthcheck and dependency status",
     long_description=('A simple reusable app that checks and lists '
                       'various information about your project and its '
