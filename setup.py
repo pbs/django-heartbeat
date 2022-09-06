@@ -9,7 +9,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 requires = [
-    'Django>=3.2',
+    'Django>=3.0',
     'psutil==5.7.0',
 ]
 
