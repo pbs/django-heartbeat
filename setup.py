@@ -9,7 +9,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 requires = [
-    'Django>=1.6',
+    'Django>=3.2',
     'psutil==5.7.0',
 ]
 
@@ -18,7 +18,7 @@ if sys.version_info < (3, 3, 0):
 
 setup(
     name='django-heartbeat',
-    version='2.0.3',
+    version='2.0.4',
     description="Your project's heartbeat/healthcheck and dependency status",
     long_description=('A simple reusable app that checks and lists '
                       'various information about your project and its '
