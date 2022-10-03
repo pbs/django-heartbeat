@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  tests:
+    build:
+      context: .
+      dockerfile: tests/Dockerfile
+    working_dir: /heartbeat
+#    volumes:
+#      - .:/heartbeat
+    command: ["tox", "--verbose", "--develop", "--recreate"]
+# tox --verbose --parallel=auto --parallel-live --develop --recreate

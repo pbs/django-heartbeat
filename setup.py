@@ -10,7 +10,7 @@ from setuptools import setup
 
 requires = [
     'Django>=1.6',
-    'psutil==5.7.0',
+    'psutil',
 ]
 
 if sys.version_info < (3, 3, 0):
@@ -18,14 +18,14 @@ if sys.version_info < (3, 3, 0):
 
 setup(
     name='django-heartbeat',
-    version='2.0.3',
+    version='2.1.0',
     description="Your project's heartbeat/healthcheck and dependency status",
     long_description=('A simple reusable app that checks and lists '
                       'various information about your project and its '
                       'dependencies'),
     keywords="django heartbeat health check dependency services status",
-    author='PBS Core Services Test Engineers',
-    author_email='andrei.pradan@3pillarglobal.com',
+    author='PBS Core Services',
+    author_email='pbsi-team-core-services@pbs.org',
     url='https://github.com/pbs/django-heartbeat/',
     packages=find_packages('src'),
     package_dir={'': 'src'},
