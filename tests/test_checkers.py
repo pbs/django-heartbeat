@@ -109,7 +109,7 @@ class TestCheckers(object):
             dbs = {
                 'default': {
                     'ENGINE': 'django.db.backends.sqlite3',
-                    'NAME': 'foo'
+                    'NAME': 'file::memory:'
                 }
             }
             setattr(settings, 'DATABASES', dbs)

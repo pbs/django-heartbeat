@@ -58,7 +58,7 @@ def prepare_credentials(auth):
 def get_access_route(request):
     meta = request.META
     return (
-        meta.get('HTTP_X_FORWARDED_FOR') or meta.get('REMOTE_ADDR')
+            meta.get('HTTP_X_FORWARDED_FOR') or meta.get('REMOTE_ADDR')
     ).split(',')
 
 
@@ -76,7 +76,7 @@ def get_client_ip(request):
         (^172\.3[0-1]\.)|  # will match 172.30.0.0 - 172.31.255.255 IP-s
         (^192\.168\.)  # will match 192.168.0.0 - 192.168.255.255 IP-s
     """
-    regex = re.compile(expression, re.X)
+    regex = re.compile(repr(expression), re.X)
     for ip in access_route:
         if not ip:
             # it's possible that the first value from X_FORWARDED_FOR
@@ -100,6 +100,6 @@ def is_authorized(ip, authorized_ips):
                 if ip in ip_network(item):
                     return True
             except ValueError:
-                logger.warn('The "authorized_ip" list (settings.HEARTBEAT)'
-                            'contains an item that is neither an ip address '
-                            'nor an ip network: {}'.format(item))
+                logger.warning('The "authorized_ip" list (settings.HEARTBEAT)'
+                               'contains an item that is neither an ip address '
+                               'nor an ip network: {}'.format(item))
