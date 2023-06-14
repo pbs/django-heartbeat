@@ -3,6 +3,8 @@ version: '3.8'
 services:
   test_py38_dj3219:
     image: python:3.8-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
     volumes:
       - .:/django-heartbeat
     command: sh -c "
@@ -15,6 +17,8 @@ services:
 
   test_py38_dj40:
     image: python:3.8-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
     volumes:
       - .:/django-heartbeat
     command: sh -c "
@@ -27,6 +31,8 @@ services:
 
   test_py310_dj3219:
     image: python:3.10-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
     volumes:
       - .:/django-heartbeat
     command: sh -c "
@@ -39,6 +45,8 @@ services:
 
   test_py310_dj40:
     image: python:3.10-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
     volumes:
       - .:/django-heartbeat
     command: sh -c "
