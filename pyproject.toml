@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-heartbeat"
+authors = [{ name = "PBS Core Services", email = "pbsi-team-core-services@pbs.org" }]
+description = "A simple reusable app that checks and lists various information about your project and its dependencies"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["django", "heartbeat", "health check", "dependency status"]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "Django>=3.2,<=4.0",
+    "psutil"
+]
+version = "2.2.9999999"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[project.urls]
+Homepage = "https://github.com/pbs/django-heartbeat"

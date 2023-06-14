@@ -5,6 +5,8 @@ if not settings.configured:
 
 from heartbeat.auth import is_authorized
 
+def test_fail():
+    assert True == False
 
 def test_is_authorized_with_exact_valid_ip():
     authorized_ips = ['1.3.3.7']
