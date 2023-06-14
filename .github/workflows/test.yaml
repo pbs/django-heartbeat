@@ -1,0 +1,14 @@
+name: TestPyPI - Test and publish django-heartbeat
+
+on:
+  workflow_dispatch
+
+jobs:
+  run-tests:
+    uses: ./.github/workflows/tests.yaml
+  publish:
+    uses: ./.github/workflows/publish.yaml
+    needs: run-tests
+    secrets:
+      TWINE_USERNAME: ${{ secrets.TEST_TWINE_USERNAME }}
+      TWINE_PASSWORD: ${{ secrets.TEST_TWINE_PASSWORD }}

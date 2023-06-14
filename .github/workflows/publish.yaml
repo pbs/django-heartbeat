@@ -1,0 +1,34 @@
+name: Publish
+
+on:
+  workflow_call:
+    secrets:
+      TWINE_USERNAME:
+        required: true
+      TWINE_PASSWORD:
+        required: true
+    inputs:
+      TWINE_REPOSITORY:
+        required: false
+        type: string
+        default: 'testpypi'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+      TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+      TWINE_REPOSITORY: ${{ inputs.TWINE_REPOSITORY }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Upload package
+        run: |
+          pip install --upgrade pip
+          pip install --upgrade twine
+          pip install --upgrade build
+          env | grep TWINE_REPOSITORY
+          python3 -m build
+          python3 -m twine upload dist/*
