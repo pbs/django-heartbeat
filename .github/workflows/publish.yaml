@@ -30,5 +30,13 @@ jobs:
           pip install --upgrade twine
           pip install --upgrade build
           env | grep TWINE_REPOSITORY
-          python3 -m build
-          python3 -m twine upload dist/*
+          if [ $TWINE_REPOSITORY == 'testpypi' ]; 
+          then 
+            # rename package because we've lost access to the official test-pypi project
+            # renaming the package only for testpipy so that it can be published there
+            # will remove if I am successfull in contacting Andrei Pradan
+            sed -i 's/name = "django-heartbeat"/name = "django-heartbeat-testpipy"/g' pyproject.toml; 
+          fi;
+          cat pyproject.toml
+#          python3 -m build
+#          python3 -m twine upload dist/*
