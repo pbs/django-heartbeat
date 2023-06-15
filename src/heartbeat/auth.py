@@ -38,6 +38,7 @@ def auth(func):
             "Authentication failed", status=401)
         response['WWW-Authenticate'] = 'Basic realm="Welcome to 1337"'
         return response
+
     return _decorator
 
 
@@ -67,7 +68,7 @@ def get_client_ip(request):
 
     if len(access_route) == 1:
         return access_route[0]
-    expression = """
+    expression = r"""
         (^(?!(?:[0-9]{1,3}\.){3}[0-9]{1,3}$).*$)|  # will match non valid ipV4
         (^127\.0\.0\.1)|  # will match 127.0.0.1
         (^10\.)|  # will match 10.0.0.0 - 10.255.255.255 IP-s
@@ -76,7 +77,7 @@ def get_client_ip(request):
         (^172\.3[0-1]\.)|  # will match 172.30.0.0 - 172.31.255.255 IP-s
         (^192\.168\.)  # will match 192.168.0.0 - 192.168.255.255 IP-s
     """
-    regex = re.compile(repr(expression), re.X)
+    regex = re.compile(expression, re.X)
     for ip in access_route:
         if not ip:
             # it's possible that the first value from X_FORWARDED_FOR
