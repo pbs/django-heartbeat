@@ -1,5 +1,3 @@
-# django-heartbeat
-
 Django-heartbeat is a simple reusable app that checks and lists various information
 about your project and its dependencies
 
