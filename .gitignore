@@ -89,3 +89,4 @@ ENV/
 
 .tox
 .pytest_cache
+.idea
