@@ -29,6 +29,20 @@ services:
       pytest tests -vv --html=./test-results_py38_dj40.html --self-contained-html
       "
 
+  test_py38_dj426:
+    image: python:3.8-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip;
+      pip install Django==4.2.6 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py38_dj426.html --self-contained-html
+      "
+
   test_py310_dj3219:
     image: python:3.10-slim-bullseye
     environment:
@@ -54,5 +68,19 @@ services:
       pip install --upgrade pip;
       pip install Django==4.0 pytest pytest-html;
       pip install -e .;
-      pytest tests -vv --html=./test-results_py40_dj40.html --self-contained-html
+      pytest tests -vv --html=./test-results_py310_dj40.html --self-contained-html
+      "
+
+  test_py310_dj426:
+    image: python:3.10-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip;
+      pip install Django==4.2.6 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py310_dj426.html --self-contained-html
       "

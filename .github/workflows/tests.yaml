@@ -18,9 +18,13 @@ jobs:
           docker-compose down
           docker-compose run --rm test_py38_dj40
           docker-compose down
+          docker-compose run --rm test_py38_dj426
+          docker-compose down
           docker-compose run --rm test_py310_dj3219
           docker-compose down
           docker-compose run --rm test_py310_dj40
+          docker-compose down
+          docker-compose run --rm test_py310_dj426
           docker-compose down
       - name: Publish test results
         uses: actions/upload-artifact@v3

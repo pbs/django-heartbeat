@@ -51,7 +51,7 @@ if 'heartbeat' in settings.INSTALLED_APPS:
 e.g.:
 
   ```Python
-  HEARTBEAT = {
+HEARTBEAT = {
     'package_name': 'foo_project',
     'checkers': [
         'heartbeat.checkers.build',
@@ -149,7 +149,7 @@ Note: The function name of your checker MUST be 'check' and has to return a JSON
 
 Simple, huh?
 
-If you would like to contribute to this library with a new checker(or any other
+If you would like to contribute to this library with a new checker (or any other
 functionality), feel free to make a pull request.
 
 # Contributors
