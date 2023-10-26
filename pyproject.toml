@@ -18,7 +18,7 @@ dependencies = [
     "Django>=3.2,<=4.2.6",
     "psutil"
 ]
-version = "2.2.01"
+version = "2.2.1"
 
 [tool.setuptools]
 zip-safe = false
