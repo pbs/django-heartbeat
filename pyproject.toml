@@ -15,10 +15,10 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "Django>=4,<5",
+    "Django>=4,<=5.1",
     "psutil"
 ]
-version = "2.2.2"
+version = "2.2.3"
 
 [tool.setuptools]
 zip-safe = false
