@@ -13,17 +13,17 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose down
-          docker-compose run --rm test_py310_dj4223
-          docker-compose run --rm test_py312_dj4223
-          docker-compose run --rm test_py310_dj5014
-          docker-compose run --rm test_py312_dj5014
-          docker-compose run --rm test_py310_dj5111
-          docker-compose run --rm test_py312_dj5111
-          docker-compose run --rm test_py310_dj523
-          docker-compose run --rm test_py311_dj523
-          docker-compose run --rm test_py312_dj523
-          docker-compose down
+          docker compose down
+          docker compose run --rm test_py310_dj4223
+          docker compose run --rm test_py312_dj4223
+          docker compose run --rm test_py310_dj5014
+          docker compose run --rm test_py312_dj5014
+          docker compose run --rm test_py310_dj5111
+          docker compose run --rm test_py312_dj5111
+          docker compose run --rm test_py310_dj523
+          docker compose run --rm test_py311_dj523
+          docker compose run --rm test_py312_dj523
+          docker compose down
       - name: Publish test results
         uses: actions/upload-artifact@v4
         with:
