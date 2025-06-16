@@ -3,8 +3,8 @@ about your project and its dependencies
 
 # Requirements
 
-* Python >=3.8 (tested with Python 3.8, 3.10)
-* Django >=4 < 5
+* Python >=3.10 (tested with Python 3.10, 3.11, 3.12)
+* Django >=4 <=5.2
 
 # Installation
 

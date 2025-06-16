@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0,<72"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,7 @@ name = "django-heartbeat"
 authors = [{ name = "PBS Core Services", email = "pbsi-team-core-services@pbs.org" }]
 description = "A simple reusable app that checks and lists various information about your project and its dependencies"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 keywords = ["django", "heartbeat", "health check", "dependency status"]
 license = { file = "LICENSE" }
 classifiers = [
@@ -15,10 +15,11 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "Django>=4,<5",
-    "psutil"
+    "Django>=4,<=5.2",
+    "psutil",
+    "setuptools"
 ]
-version = "2.2.2"
+version = "2.2.3"
 
 [tool.setuptools]
 zip-safe = false
