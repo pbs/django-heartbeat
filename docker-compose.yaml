@@ -1,21 +1,63 @@
 version: '3.8'
 
 services:
-  test_py38_dj427:
-    image: python:3.8-slim-bullseye
+  test_py310_dj4223:
+    image: python:3.10-slim-bullseye
     environment:
       - PYTHONWARNINGS=always
     volumes:
       - .:/django-heartbeat
     command: sh -c "
       cd django-heartbeat;
-      pip install --upgrade pip;
-      pip install Django==4.2.7 pytest pytest-html;
+      pip install --upgrade pip setuptools;
+      pip install Django==4.2.23 pytest pytest-html;
       pip install -e .;
-      pytest tests -vv --html=./test-results_py38_dj427.html --self-contained-html
+      pytest tests -vv --html=./test-results_py310_dj4223.html --self-contained-html
       "
 
-  test_py310_dj427:
+  test_py312_dj4223:
+    image: python:3.12-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip setuptools;
+      pip install Django==4.2.23 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py312_dj4223.html --self-contained-html
+      "
+
+  test_py310_dj5014:
+    image: python:3.10-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip setuptools;
+      pip install Django==5.0.14 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py310_dj5014.html --self-contained-html
+      "
+
+  test_py312_dj5014:
+    image: python:3.12-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip setuptools;
+      pip install Django==5.0.14 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py312_dj5014.html --self-contained-html
+      "
+
+  test_py310_dj5111:
     image: python:3.10-slim-bullseye
     environment:
       - PYTHONWARNINGS=always
@@ -24,7 +66,63 @@ services:
     command: sh -c "
       cd django-heartbeat;
       pip install --upgrade pip;
-      pip install Django==4.2.7 pytest pytest-html;
+      pip install Django==5.1.11 pytest pytest-html;
       pip install -e .;
-      pytest tests -vv --html=./test-results_py310_dj427.html --self-contained-html
+      pytest tests -vv --html=./test-results_py310_dj5111.html --self-contained-html
+      "
+
+  test_py312_dj5111:
+    image: python:3.12-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip setuptools;
+      pip install Django==5.1.11 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py312_dj5111.html --self-contained-html
+      "
+
+  test_py310_dj523:
+    image: python:3.10-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip setuptools;
+      pip install Django==5.2.3 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py310_dj523.html --self-contained-html
+      "
+
+  test_py311_dj523:
+    image: python:3.11-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip setuptools;
+      pip install Django==5.2.3 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py311_dj523.html --self-contained-html
+      "
+
+  test_py312_dj523:
+    image: python:3.12-slim-bullseye
+    environment:
+      - PYTHONWARNINGS=always
+    volumes:
+      - .:/django-heartbeat
+    command: sh -c "
+      cd django-heartbeat;
+      pip install --upgrade pip setuptools;
+      pip install Django==5.2.3 pytest pytest-html;
+      pip install -e .;
+      pytest tests -vv --html=./test-results_py312_dj523.html --self-contained-html
       "

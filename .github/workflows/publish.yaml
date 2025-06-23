@@ -22,8 +22,11 @@ jobs:
       TWINE_REPOSITORY: ${{ inputs.TWINE_REPOSITORY }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Upload package
         run: |
           pip install --upgrade pip
@@ -31,4 +34,5 @@ jobs:
           pip install --upgrade build
           env | grep TWINE_REPOSITORY
           python3 -m build
+          python3 -m twine check dist/*
           python3 -m twine upload dist/*
