@@ -1,8 +1,8 @@
-from pkg_resources import WorkingSet
+from importlib.metadata import distributions
 
 
 def check(request):
     return [
-        {'name': distribution.project_name, 'version': distribution.version}
-        for distribution in WorkingSet()
+        {'name': dist.metadata['Name'], 'version': dist.metadata['Version']}
+        for dist in distributions()
     ]

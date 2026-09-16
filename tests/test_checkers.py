@@ -46,9 +46,10 @@ class TestCheckers(object):
         assert distro == {'error': 'no distribution found for missing-package'}
 
     def test_build_version_with_valid_package_name(self):
-        package = Mock(project_name='foo', version='1.0.0')
         setattr(settings, 'HEARTBEAT', {'package_name': 'foo'})
-        with mock.patch.object(build.WorkingSet, 'find', return_value=package):
+        mock_dist = Mock()
+        mock_dist.metadata = {'Name': 'foo', 'Version': '1.0.0'}
+        with mock.patch('heartbeat.checkers.build.distribution', return_value=mock_dist):
             distro = build.check(request=None)
             assert distro == {'name': 'foo', 'version': '1.0.0'}
 
@@ -58,11 +59,12 @@ class TestCheckers(object):
         debug = debug_mode.check(request=None)
         assert debug == mode
 
-    @mock.patch(
-        'heartbeat.checkers.distribution_list.WorkingSet')
-    def test_get_distribution_list(self, dist_list):
-        dist_list.return_value = [
-            Mock(project_name=i, version='1.0.0') for i in range(3)]
+    @mock.patch('heartbeat.checkers.distribution_list.distributions')
+    def test_get_distribution_list(self, mock_distributions):
+        mock_dists = [Mock() for i in range(3)]
+        for i, d in enumerate(mock_dists):
+            d.metadata = {'Name': i, 'Version': '1.0.0'}
+        mock_distributions.return_value = mock_dists
         distro = distribution_list.check(request=None)
         assert {'version': '1.0.0', 'name': 1} in distro
         assert {'version': '1.0.0', 'name': 2} in distro

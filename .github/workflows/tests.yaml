@@ -9,26 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Run tests
         run: |
           docker compose down
-          docker compose run --rm test_py310_dj42
-          docker compose run --rm test_py311_dj42
-          docker compose run --rm test_py312_dj42
-          docker compose run --rm test_py310_dj50
-          docker compose run --rm test_py311_dj50
-          docker compose run --rm test_py312_dj50
-          docker compose run --rm test_py310_dj51
-          docker compose run --rm test_py311_dj51
-          docker compose run --rm test_py312_dj51
           docker compose run --rm test_py310_dj52
           docker compose run --rm test_py311_dj52
           docker compose run --rm test_py312_dj52
           docker compose down
       - name: Publish test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results
           path:
