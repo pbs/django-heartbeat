@@ -1,132 +1,6 @@
 version: '3.8'
 
 services:
-  test_py310_dj42:
-    image: python:3.10-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=4.2,<4.3" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py310_dj42.html --self-contained-html
-      "
-
-  test_py311_dj42:
-    image: python:3.11-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=4.2,<4.3" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py311_dj42.html --self-contained-html
-      "
-
-  test_py312_dj42:
-    image: python:3.12-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=4.2,<4.3" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py312_dj42.html --self-contained-html
-      "
-
-  test_py310_dj50:
-    image: python:3.10-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=5,<5.1" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py310_dj50.html --self-contained-html
-      "
-
-  test_py311_dj50:
-    image: python:3.11-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=5,<5.1" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py311_dj50.html --self-contained-html
-      "
-
-  test_py312_dj50:
-    image: python:3.12-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=5,<5.1" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py312_dj50.html --self-contained-html
-      "
-
-  test_py310_dj51:
-    image: python:3.10-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip;
-      pip install "Django>=5.1,<5.2" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py310_dj51.html --self-contained-html
-      "
-
-  test_py311_dj51:
-    image: python:3.11-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip;
-      pip install "Django>=5.1,<5.2" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py311_dj51.html --self-contained-html
-      "
-
-  test_py312_dj51:
-    image: python:3.12-slim-bullseye
-    environment:
-      - PYTHONWARNINGS=always
-    volumes:
-      - .:/django-heartbeat
-    command: sh -c "
-      cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=5.1,<5.2" pytest pytest-html;
-      pip install -e .;
-      pytest tests -vv --html=./test-results_py312_dj51.html --self-contained-html
-      "
-
   test_py310_dj52:
     image: python:3.10-slim-bullseye
     environment:
@@ -135,8 +9,7 @@ services:
       - .:/django-heartbeat
     command: sh -c "
       cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=5.2,<5.3" pytest pytest-html;
+      pip install 'Django>=5.2,<5.3' pytest pytest-html;
       pip install -e .;
       pytest tests -vv --html=./test-results_py310_dj52.html --self-contained-html
       "
@@ -149,8 +22,7 @@ services:
       - .:/django-heartbeat
     command: sh -c "
       cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=5.2,<5.3" pytest pytest-html;
+      pip install 'Django>=5.2,<5.3' pytest pytest-html;
       pip install -e .;
       pytest tests -vv --html=./test-results_py311_dj52.html --self-contained-html
       "
@@ -163,8 +35,7 @@ services:
       - .:/django-heartbeat
     command: sh -c "
       cd django-heartbeat;
-      pip install --upgrade pip setuptools;
-      pip install "Django>=5.2,<5.3" pytest pytest-html;
+      pip install 'Django>=5.2,<5.3' pytest pytest-html;
       pip install -e .;
       pytest tests -vv --html=./test-results_py312_dj52.html --self-contained-html
       "
