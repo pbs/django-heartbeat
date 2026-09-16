@@ -14,7 +14,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "Django>=4,<5.3",
+    "Django>=5.2,<5.3",
     "psutil",
 ]
 version = "2.2.5dev"
