@@ -14,15 +14,6 @@ jobs:
       - name: Run tests
         run: |
           docker compose down
-          docker compose run --rm test_py310_dj42
-          docker compose run --rm test_py311_dj42
-          docker compose run --rm test_py312_dj42
-          docker compose run --rm test_py310_dj50
-          docker compose run --rm test_py311_dj50
-          docker compose run --rm test_py312_dj50
-          docker compose run --rm test_py310_dj51
-          docker compose run --rm test_py311_dj51
-          docker compose run --rm test_py312_dj51
           docker compose run --rm test_py310_dj52
           docker compose run --rm test_py311_dj52
           docker compose run --rm test_py312_dj52
